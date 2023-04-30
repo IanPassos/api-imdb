@@ -1,5 +1,6 @@
 package br.rc.imdb.main.model;
 
+import java.lang.reflect.*;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -16,6 +17,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 
 public class accessApi {
 
@@ -27,29 +29,21 @@ public class accessApi {
 				uri(new URI("https://imdb-api.com/en/API/Top250Movies/" + ConstantsEnum.API_KEY.getValue()))
 				.GET()
 				.build();
-		 
-		
 		
 		HttpClient client = HttpClient.newHttpClient();
 		
 		HttpResponse<String> getResponse = client.send(getRequest,BodyHandlers.ofString());
 		
-		
 		String json = getResponse.body();
 		JsonObject jsonObject = new JsonParser().parse(json).getAsJsonObject();
-		JsonArray moviesArray = jsonObject.getAsJsonArray("items");
-
-
-		List<String> titles = new ArrayList<>();
-		List<String> images = new ArrayList<>();
+		JsonArray moviesJson = jsonObject.getAsJsonArray("items");
+	
+		Gson gson = new Gson();
 		
-		for(int i = 0; i < moviesArray.size(); i++) {
-			String title = moviesArray.get(i).getAsJsonObject().get("title").getAsString();
-			titles.add(title);
-
-			String image = moviesArray.get(i).getAsJsonObject().get("image").getAsString();
-			images.add(image);
-		}
+		Type listType = new TypeToken<List<Movie>>() {}.getType();
+		List<Movie> movies = gson.fromJson(moviesJson, listType);
+		
+		movies.forEach(System.out::println);
 
 	}
 	
