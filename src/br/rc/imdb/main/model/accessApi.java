@@ -1,27 +1,26 @@
 package br.rc.imdb.main.model;
 
-import java.lang.reflect.*;
-import java.io.IOException;
+import java.io.File;
+import java.io.PrintWriter;
+import java.lang.reflect.Type;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
-import java.util.ArrayList;
 import java.util.List;
 
-import br.rc.imdb.main.utils.ConstantsEnum;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 
+import br.rc.imdb.main.utils.ConstantsEnum;
+
 public class accessApi {
 
-	public static void main(String[] args) throws URISyntaxException, IOException, InterruptedException {
+	public static void main(String[] args) throws Exception {
 		
 		
 		
@@ -43,8 +42,14 @@ public class accessApi {
 		Type listType = new TypeToken<List<Movie>>() {}.getType();
 		List<Movie> movies = gson.fromJson(moviesJson, listType);
 		
-		movies.forEach(System.out::println);
-
+		
+		PrintWriter writer = new PrintWriter(new File("index.html"), "UTF-8");
+		HTMLGenerator htmlGen = new HTMLGenerator(writer);
+		
+		htmlGen.generate(movies);
+	
+		writer.close();
+		
 	}
 	
 }

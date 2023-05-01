@@ -1,0 +1,22 @@
+body{
+    font-family: Helvetica;
+    text-align: center;
+    color: #fff;
+    background-color: #333;
+    padding: 0;
+    margin: 0;
+}
+
+div {
+    margin: 0 auto;
+}
+
+h1{
+    font-size: 32px;
+}  
+
+div img{
+    border: 2px solid #ffffff;
+    max-width: 90%;
+    height: auto;
+}
