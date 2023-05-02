@@ -22,31 +22,17 @@ public class accessApi {
 
 	public static void main(String[] args) throws Exception {
 		
+		String json = new ImdbApiClient(
+				"https://imdb-api.com/en/API/Top250Movies/",ConstantsEnum.API_KEY.getValue())
+				.getRequestBody();
 		
 		
-		HttpRequest getRequest = HttpRequest.newBuilder().
-				uri(new URI("https://imdb-api.com/en/API/Top250Movies/" + ConstantsEnum.API_KEY.getValue()))
-				.GET()
-				.build();
-		
-		HttpClient client = HttpClient.newHttpClient();
-		
-		HttpResponse<String> getResponse = client.send(getRequest,BodyHandlers.ofString());
-		
-		String json = getResponse.body();
-		JsonObject jsonObject = new JsonParser().parse(json).getAsJsonObject();
-		JsonArray moviesJson = jsonObject.getAsJsonArray("items");
-	
-		Gson gson = new Gson();
-		
-		Type listType = new TypeToken<List<Movie>>() {}.getType();
-		List<Movie> movies = gson.fromJson(moviesJson, listType);
+		List<Movie> movies = new ImdbMovieJsonParser(json).parse();
 		
 		
 		PrintWriter writer = new PrintWriter(new File("index.html"), "UTF-8");
-		HTMLGenerator htmlGen = new HTMLGenerator(writer);
 		
-		htmlGen.generate(movies);
+		new HTMLGenerator(writer).generate(movies);
 	
 		writer.close();
 		
