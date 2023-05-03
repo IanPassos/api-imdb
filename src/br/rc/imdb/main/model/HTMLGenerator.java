@@ -3,6 +3,8 @@ package br.rc.imdb.main.model;
 import java.io.PrintWriter;
 import java.util.List;
 
+import br.rc.imdb.main.repository.Content;
+
 // HTML file creation without external libraries for learning purposes
 
 public class HTMLGenerator {
@@ -13,21 +15,21 @@ public class HTMLGenerator {
 		this.htmlWriter = htmlWriter;
 	}
 	
-	public void generate(List<Movie> movies){
+	public void generate(List<? extends Content> contents){
 		
 		String head = generateHead();
 		String divClass = generateBody();
 		
 		htmlWriter.println(String.format(head));
 		
-		movies.forEach(m -> 
+		contents.forEach(m -> 
 				htmlWriter.println(
 						String.format(divClass, 
-								m.getTitle(),
-								m.getimage(),
-								m.getTitle(),
-								m.getimDbRating(),
-								m.getYear())
+								m.title(),
+								m.urlImage(),
+								m.title(),
+								m.rating(),
+								m.year())
 						)
 				);
 	}

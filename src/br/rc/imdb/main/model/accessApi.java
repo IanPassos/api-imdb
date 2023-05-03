@@ -16,6 +16,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 
+import br.rc.imdb.main.repository.Content;
 import br.rc.imdb.main.utils.ConstantsEnum;
 
 public class accessApi {
@@ -27,15 +28,13 @@ public class accessApi {
 				.getRequestBody();
 		
 		
-		List<Movie> movies = new ImdbMovieJsonParser(json).parse();
-		
+		List<? extends Content> contents = new ImdbMovieJsonParser(json).parse();
 		
 		PrintWriter writer = new PrintWriter(new File("index.html"), "UTF-8");
 		
-		new HTMLGenerator(writer).generate(movies);
+		new HTMLGenerator(writer).generate(contents);
 	
 		writer.close();
-		
 	}
 	
 }

@@ -9,7 +9,9 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 
-public class ImdbMovieJsonParser {
+import br.rc.imdb.main.repository.Content;
+
+public class ImdbMovieJsonParser implements br.rc.imdb.main.repository.JsonParser {
 	
 	private String json;
 
@@ -17,7 +19,8 @@ public class ImdbMovieJsonParser {
 		this.json = json;
 	}
 	
-	public List<Movie> parse(){
+	@Override
+	public List<? extends Content> parse(){
 		
 		JsonObject jsonObject = new JsonParser().parse(json).getAsJsonObject();
 		JsonArray moviesJson = jsonObject.getAsJsonArray("items");
