@@ -1,6 +1,7 @@
 package br.rc.imdb.main.model;
 
 import br.rc.imdb.main.repository.Content;
+import java.lang.Comparable;
 
 public class Movie implements Content {
 
@@ -8,9 +9,9 @@ public class Movie implements Content {
 	
 	private String image;
 	
-	private float imDbRating;
+	private String imDbRating;
 	
-	private int year;
+	private String year;
 
 	@Override
 	public String toString() {
@@ -25,20 +26,27 @@ public class Movie implements Content {
 
 	@Override
 	public String urlImage() {
-		
 		return image;
 	}
 
 	@Override
-	public float rating() {
-		
+	public String rating() {
 		return imDbRating;
 	}
 
 	@Override
-	public int year() {
+	public String year() {
 		
 		return year;
 	}
+
+	@Override
+	public int compareTo(Content other) {
+		return this.rating().compareTo(other.rating());
+	}
+
+
+	
+	
 		
 }

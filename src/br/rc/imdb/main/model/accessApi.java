@@ -8,6 +8,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
+import java.util.Collections;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -29,6 +30,8 @@ public class accessApi {
 		
 		
 		List<? extends Content> contents = new ImdbMovieJsonParser(json).parse();
+		
+//		Collections.sort(contents); 
 		
 		PrintWriter writer = new PrintWriter(new File("index.html"), "UTF-8");
 		

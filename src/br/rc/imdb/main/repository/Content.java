@@ -1,13 +1,13 @@
 package br.rc.imdb.main.repository;
 
-public interface Content {
+public interface Content extends Comparable<Content>{
 
 	public String title();
 	
 	public String urlImage();
 	
-	public float rating();
+	public String rating();
 	
-	public int year();
+	public String year();
 	
 }
